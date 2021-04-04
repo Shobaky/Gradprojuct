@@ -15,6 +15,7 @@ public class Probability {
     private ArrayList<Probability> otherProbs;
     private HashMap<String,College.blankSpace> Prob;
     private HashMap<String,College2.blankSpace> Prob2;
+    private HashMap<Integer,Integer> startJI;
     private int Conflict;
 
     public Probability() {
@@ -30,6 +31,7 @@ public class Probability {
         takenHour2 = new HashMap<>();
         startJ = 0;
         Conflict=0;
+        startJI = new HashMap<>();
     }
 
     public void addTakenRow(String Cols,int Row){
@@ -103,12 +105,15 @@ public class Probability {
         this.takenHour.put(rowSec,col);
     }
 
-    public int getStartJ() {
-        return startJ;
+    public int getStartJ(int i ) {
+        if(startJI.containsKey(i)){
+            return startJI.get(i);
+        }else{
+            return 0;
+        }
     }
 
-    public void setStartJ(int i) {
-        startJ = i;
+    public void setStartJ(int i,int j) {
+        startJI.put(i,j);
     }
 }
-
