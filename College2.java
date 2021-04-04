@@ -744,10 +744,10 @@ public class College2 {
 
                 outerloop:
                 for(int i = 0 ; i < Spaces.length ; i ++){
-                    Log.d("STARTRTRTR",""+mainProb.getStartJ());
-                    mainProb.setStartJ(0);
-                    for(int j = mainProb.getStartJ(); j < Spaces[i].length; j++){
+                    Log.d("STARTRTRTR",""+mainProb.getStartJ(i));
 
+                    for(int j = mainProb.getStartJ(i); j < Spaces[i].length; j++){
+                        Log.d("STARTJ",""+mainProb.getStartJ(i)+"  "+Spaces[i][mainProb.getStartJ(i)]);
                         int DivTeach = j%(Professors.size()+Assistants.size());
                         int DivStruct = j%((Holes.size()*(Professors.size()+Assistants.size()))+(Labs.size()*(Professors.size()+Assistants.size())));
                         int takenTeach = (j)/((Holes.size()*(Professors.size()+Assistants.size()))+(Labs.size()*(Professors.size()+Assistants.size())));
@@ -755,32 +755,29 @@ public class College2 {
                         int structCount = Holes.size()*staffCount+(Labs.size()*staffCount);
                         int rowCount = Hours.size()*structCount;
 
+
                         if(j!=0&&DivStruct>((Holes.size()*(Professors.size()+Assistants.size())))){
                             //the last plus: To pass the assistant element
-                            j += (Labs.size()*(Professors.size()+Assistants.size()));
+                            j += ((Labs.size()*(Professors.size()+Assistants.size())))-(j%(Holes.size()*staffCount));
 
                         }else if(j != 0 &&DivTeach>Professors.size()-1){
-                            j += Assistants.size();
+                            j += Assistants.size()-(j%Professors.size());
 
                         }
                         if(j>=Spaces[i].length){
                             break ;
                         }
-                        if(!mainProb.getTakenRow2().keySet().contains(j/structCount)){
-                            Log.d("JJJNO",j/structCount+"  "+Spaces[i][j].toString());
-                            mainProb.setStartJ(0);
-                        }else{
-                            Log.d("JJJ",j/structCount+"  "+Spaces[i][j].toString());
-                        }
 
 
-                        Log.d("COUNTER","j: "+j+" DivTeach: "+DivTeach+" DivSt: "+DivStruct);
+
+
 
 
                         if(!(mainProb.getTakenRow2().get(j/structCount)!=null&&mainProb.getTakenRow2().get(j/structCount).contains(String.valueOf(j%staffCount)))&&Spaces[i][j].getProfessor().getMaterial().contains(Material)&&secCap.get(Section)<Spaces[i][j].getHole().getCapacity()){
                             mainProb.addLec2(mergeSecMat,Spaces[i][j]);
-                            Log.d("MODULOOO","St: "+staffCount+" MOduk: "+(j%staffCount)+" j: "+j+" stt: "+(staffCount-(j%staffCount)));
-                            mainProb.setStartJ((j+staffCount)-(j%staffCount));
+
+                            mainProb.setStartJ(i,(j+staffCount)-(j%staffCount));
+                            Log.d("STARTJ","j: "+j+" startJ: "+mainProb.getStartJ(i)+" spacej "+Spaces[i][j]+" Space "+Spaces[i][mainProb.getStartJ(i)]);
                             if(mainProb.getTakenRow2().get(j/structCount)!=null) {
                                 String Prev = mainProb.getTakenRow2().get(j/structCount);
 
